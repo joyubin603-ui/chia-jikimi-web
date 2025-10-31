@@ -1,1 +1,13 @@
-
+{
+  "name": "치아지킴이",
+  "short_name": "치아지킴이",
+  "description": "구강 건강 습관 앱",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196F3",
+  "icons": [
+    { "src": "/tooth-icon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/tooth-icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
