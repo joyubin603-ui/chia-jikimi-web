@@ -83,7 +83,13 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
         const endAngle = 2 * Math.PI;
         landmarks.forEach((point: any) => {
           ctx.beginPath();
-          ctx.arc(point.x, point.y, radius, startAngle, endAngle);
+          ctx.arc(
+            point.x,
+            point.y,
+            radius,
+            startAngle,
+            endAngle
+          );
           ctx.fill();
         });
       }
