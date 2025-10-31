@@ -11,12 +11,18 @@ function App() {
   const [showReward, setShowReward] = useState(false)
   const [lastReward, setLastReward] = useState(0)
 
-  useEffect(() => {
-    setPoints(getPoints())
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission()
-    }
-  }, [])
+ useEffect(() => {
+  // async 함수 안에서 await 사용
+  const loadPoints = async () => {
+    const savedPoints = await getPoints()
+    setPoints(savedPoints)
+  }
+  loadPoints()
+
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission()
+  }
+}, [])
 
   const handleBrushingComplete = () => {
     const reward = 10 + Math.floor(Math.random() * 5)
