@@ -24,21 +24,22 @@ function App() {
   }
 }, [])
 
-  const handleBrushingComplete = () => {
-    const reward = 10 + Math.floor(Math.random() * 5)
-    addPoints(reward)
-    setPoints(getPoints())
-    setLastReward(reward)
-    setShowReward(true)
-    setShowTimer(false)
+const handleBrushingComplete = async () => {
+  const reward = 10 + Math.floor(Math.random() * 5)
+  await addPoints(reward)
+  const newPoints = await getPoints()  // await 추가!
+  setPoints(newPoints)
+  setLastReward(reward)
+  setShowReward(true)
+  setShowTimer(false)
 
-    if (Notification.permission === 'granted') {
-      new Notification('치아지킴이', {
-        body: `양치 완료! +${reward} 포인트 적립 🎉`,
-        icon: '/tooth-icon.png',
-      })
-    }
+  if (Notification.permission === 'granted') {
+    new Notification('치아지킴이', {
+      body: `양치 완료! +${reward} 포인트 적립 🎉`,
+      icon: '/tooth-icon.png',
+    })
   }
+}
 
   return (
     <>
