@@ -37,8 +37,8 @@ export default function BrushingTimer({ onComplete, onClose }: { onComplete: () 
           </Typography>
         </Box>
 
-        <Button variant="outlined" onClick={onClose} sx={{ mt: 2 }}>
-          그만할게요! 
+        <Button variant="outlined" onClick={onClose} sx={{ mt: 3 }}>
+          끝! 이제 그만할게요
         </Button>
       </DialogContent>
     </Dialog>
