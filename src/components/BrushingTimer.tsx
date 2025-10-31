@@ -15,8 +15,8 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
   const [guideIndex, setGuideIndex] = useState(0);
   const [model, setModel] = useState<any>(null);
   const [motionDetected, setMotionDetected] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);  // useRef로 변경!
-  const canvasRef = useRef<HTMLCanvasElement>(null);  // useRef로 변경!
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
         detectMotion();
       } else {
         if (intervalRef.current) clearInterval(intervalRef.current);
-        onComplete(motionDetected > 80);  // 80% 이상 움직이면 "잘함"
+        onComplete(motionDetected > 80);
       }
     }, 1000);
 
@@ -39,7 +39,7 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
   }, [seconds, motionDetected, onComplete]);
 
   const loadModel = async () => {
-    await tf.setBackend('webgl');  // 성능 위해
+    await tf.setBackend('webgl');
     await tf.ready();
     const loadedModel = await faceLandmarksDetection.load(
       faceLandmarksDetection.SupportedPackages.mediapipeFacemesh
@@ -57,7 +57,6 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
       }
     } catch (err) {
       console.error('카메라 접근 실패:', err);
-      // 폴백: 단순 타이머로
     }
   };
 
@@ -67,23 +66,24 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
     const predictions = await model.estimateFaces(videoRef.current);
     if (predictions.length > 0) {
       const landmarks = predictions[0].keypoints;
-      // 입 움직임 감지 (코-턱 거리 변화 – 간단)
-      const noseY = landmarks[1].y;  // 코
-      const chinY = landmarks[152].y;  // 턱 (mediapipe 인덱스)
+      const noseY = landmarks[1].y;
+      const chinY = landmarks[152].y;
       const mouthDist = Math.abs(noseY - chinY);
-      if (mouthDist > 0.05) {  // 임계값 조정 가능
+      if (mouthDist > 0.05) {
         setMotionDetected(m => Math.min(m + 1, 120));
       }
 
-      // 캔버스에 랜드마크 그리기 (피드백)
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         ctx.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
         ctx.fillStyle = 'red';
+        const radius = 2;
+        const startAngle = 0;
+        const endAngle = 2 * Math.PI;
         landmarks.forEach((point: any) => {
           ctx.beginPath();
-          ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI);
+          ctx.arc(point.x, point.y, radius, startAngle, endAngle);
           ctx.fill();
         });
       }
@@ -111,14 +111,14 @@ export default function BrushingTimer({ onComplete, onClose }: Props) {
         
         <Box sx={{ position: 'relative', width: '100%', maxWidth: 400, mb: 3 }}>
           <video 
-            ref={videoRef}  // useRef.current로 접근
+            ref={videoRef}
             autoPlay 
             muted 
             playsInline 
             style={{ width: '100%', borderRadius: 10, border: '2px solid #4CAF50' }} 
           />
           <canvas 
-            ref={canvasRef}  // useRef.current로 접근
+            ref={canvasRef}
             width={640} 
             height={480} 
             style={{ 
