@@ -2,6 +2,7 @@
   "name": "chia-jikimi-web",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -12,12 +13,6 @@
     "@emotion/styled": "^11.13.0",
     "@fontsource/noto-sans-kr": "^5.0.0",
     "@mui/material": "^5.16.7",
-    "@tensorflow/tfjs": "^4.20.0",
-  "@tensorflow-models/face-landmarks-detection": "^1.0.2",
-  "chart.js": "^4.4.4",
-  "react-chartjs-2": "^5.2.0",
-  "react-icons": "^5.3.0"
-}
     "localforage": "^1.10.0",
     "react": "^18.3.1",
     "react-confetti": "^6.1.0",
